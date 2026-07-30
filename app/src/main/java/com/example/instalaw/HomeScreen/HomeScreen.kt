@@ -196,7 +196,7 @@ fun HomeScreen() {
                         modifier = Modifier.fillMaxWidth()
                     ) {
 
-                        QuickActionsDesign(
+                        ``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````QuickActionsDesign(
                             modifier = Modifier.weight(1f),
                             QuickActionModel = QuickActionsModel(
                                 R.drawable.traffic,
