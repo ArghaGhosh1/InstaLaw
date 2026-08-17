@@ -1,4 +1,4 @@
-package com.example.instalaw.EntryScreen
+package com.example.instalaw.Presentation.EntryScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,14 +39,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.instalaw.Navigation.Screen
 import com.example.instalaw.R
 
-@Preview(
-    device = "spec:width=412dp,height=2500dp,dpi=420",
-    showBackground = true
-)
+
 @Composable()
-fun EntryScreen() {
+fun EntryScreen(navController : NavHostController) {
 
 
     Column(
@@ -88,11 +87,19 @@ fun EntryScreen() {
         ) {
 
             Text(
-                text = "Instant Legal Advice at Your Fingertips.",
+                text = "Instant Legal Advice at Your.",
                 fontStyle = FontStyle.Italic,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold
             )
+
+            Text(
+                text = "Fingertips.",
+                fontStyle = FontStyle.Italic,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold
+            )
+
             Spacer(modifier = Modifier.height(25.dp))
 
             Text(
@@ -228,10 +235,12 @@ fun EntryScreen() {
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate(Screen.NewUserRegistration.route)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(70.dp),
+                    .height(50.dp),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorResource(R.color.Button_Blue)
@@ -264,7 +273,9 @@ fun EntryScreen() {
                 Text("Already have an account? ")
 
 
-                TextButton(onClick = {}, contentPadding = PaddingValues(0.dp)) {
+                TextButton(onClick = {
+                    navController.navigate(Screen.AlreadyHaveAnAccount.route)
+                }, contentPadding = PaddingValues(0.dp)) {
 
                     Text("Sign In")
                 }

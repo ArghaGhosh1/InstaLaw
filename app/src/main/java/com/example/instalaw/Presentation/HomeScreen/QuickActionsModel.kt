@@ -1,4 +1,4 @@
-package com.example.instalaw.HomeScreen
+package com.example.instalaw.Presentation.HomeScreen
 
 data class QuickActionsModel(
 

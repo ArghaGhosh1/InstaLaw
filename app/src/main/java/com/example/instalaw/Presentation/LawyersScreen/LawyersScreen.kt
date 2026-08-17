@@ -1,4 +1,4 @@
-package com.example.instalaw.LawyersScreen
+package com.example.instalaw.Presentation.LawyersScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -29,15 +29,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.instalaw.R
 import com.example.whatsappclone.presentation.homeScreen.bottomNavigation
 
 
 @Composable
-@Preview(
-    showSystemUi = true, device = "spec:width=450dp,height=2500dp,dpi=420"
-)
-fun LawyersScreen() {
+fun LawyersScreen(navController : NavHostController) {
 
     var lawyerList = listOf(
 

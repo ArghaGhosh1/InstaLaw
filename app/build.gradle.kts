@@ -56,4 +56,21 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
+    // OkHttp Logging (very useful while developing)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+
+    // Gson
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    //Navigation
+    implementation("androidx.navigation:navigation-compose:2.9.7")
+
 }

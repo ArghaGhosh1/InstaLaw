@@ -1,4 +1,4 @@
-package com.example.instalaw.LawyersScreen
+package com.example.instalaw.Presentation.LawyersScreen
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape

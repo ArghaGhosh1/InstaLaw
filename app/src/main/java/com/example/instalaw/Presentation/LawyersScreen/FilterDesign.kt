@@ -1,4 +1,4 @@
-package com.example.instalaw.LawyersScreen
+package com.example.instalaw.Presentation.LawyersScreen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement

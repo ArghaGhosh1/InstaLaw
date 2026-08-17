@@ -1,7 +1,5 @@
-package com.example.instalaw.NewUserRegistration
+package com.example.instalaw.Presentation.NewUserRegistration
 
-import android.util.Size
-import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,14 +19,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -36,28 +30,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.instalaw.Navigation.Screen
 import com.example.instalaw.R
+import com.example.instalaw.RetrofitInstance
+import com.example.instalaw.model.postResponseItem
+import kotlinx.coroutines.launch
 
 
-@Preview(
-    showSystemUi = true,
-    device = "id:pixel_9_pro"
-)
 @Composable()
-fun NewUserRegistration() {
+fun NewUserRegistration(navController : NavHostController) {
+
+    val scope = rememberCoroutineScope()
+
 
     var full_name by remember() {
 
@@ -74,6 +71,12 @@ fun NewUserRegistration() {
     var checked by remember() {
 
         mutableStateOf(false)
+    }
+
+    var password by remember() {
+
+        mutableStateOf("")
+
     }
 
 
@@ -243,14 +246,14 @@ fun NewUserRegistration() {
 
                 Spacer(modifier = Modifier.height(15.dp))
 
-                Text("Passeord", color = Color.Gray, fontWeight = FontWeight.Bold)
+                Text("Password", color = Color.Gray, fontWeight = FontWeight.Bold)
 
                 Spacer(modifier = Modifier.height(5.dp))
 
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = full_name,
-                    onValueChange = { full_name = it },
+                    value = password,
+                    onValueChange = { password = it },
                     placeholder = { Text("Min. 8 Charecters", color = Color.Gray) }
                 )
 
@@ -305,10 +308,22 @@ fun NewUserRegistration() {
                 Spacer(modifier = Modifier.height(15.dp))
 
                 Button(
-                    onClick = {},
+                    onClick = {
+
+                        scope.launch {
+
+                            val user = postResponseItem(
+                                fullName = full_name,
+                                email = email,
+                                password = password
+                            )
+
+                            RetrofitInstance.api.post(user)
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(70.dp),
+                        .height(50.dp),
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = colorResource(R.color.Button_Blue)
@@ -339,7 +354,9 @@ fun NewUserRegistration() {
             Text("Already have an account? ")
 
 
-            TextButton(onClick = {}, contentPadding = PaddingValues(0.dp)) {
+            TextButton(onClick = {
+                navController.navigate(Screen.AlreadyHaveAnAccount.route)
+            }, contentPadding = PaddingValues(0.dp)) {
 
                 Text("Sign In")
             }

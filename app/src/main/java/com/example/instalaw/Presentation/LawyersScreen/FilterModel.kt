@@ -1,4 +1,4 @@
-package com.example.instalaw.LawyersScreen
+package com.example.instalaw.Presentation.LawyersScreen
 
 data class FilterModel(
     var title: String,

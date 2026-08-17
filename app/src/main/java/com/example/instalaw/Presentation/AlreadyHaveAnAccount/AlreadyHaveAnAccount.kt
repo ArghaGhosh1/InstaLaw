@@ -1,4 +1,4 @@
-package com.example.instalaw.AlreadyHaveAnAccount
+package com.example.instalaw.Presentation.AlreadyHaveAnAccount
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -41,14 +41,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.instalaw.Navigation.Screen
 import com.example.instalaw.R
 
 @Composable
-@Preview(
-    showSystemUi = true,
-    device = "id:pixel_9_pro"
-)
-fun AlreadyHaveAnAccount() {
+
+fun AlreadyHaveAnAccount(navController : NavHostController) {
 
     var email by remember() {
 
@@ -286,7 +285,9 @@ fun AlreadyHaveAnAccount() {
             Text("Don't have an account? ",fontSize = 15.sp)
 
 
-            TextButton(onClick = {}, contentPadding = PaddingValues(0.dp)) {
+            TextButton(onClick = {
+                navController.navigate(Screen.NewUserRegistration.route)
+            }, contentPadding = PaddingValues(0.dp)) {
 
                 Text("Sign Up", fontSize = 15.sp, fontWeight = FontWeight.Bold)
             }

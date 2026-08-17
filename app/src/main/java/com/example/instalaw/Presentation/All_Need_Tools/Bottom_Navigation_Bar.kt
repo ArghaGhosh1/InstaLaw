@@ -41,7 +41,7 @@ fun bottomNavigation() {
                     painter = painterResource(R.drawable.home),
                     contentDescription = null,
                     modifier = Modifier.size(28.dp).clickable{
-                        
+
                     },
                 )
 
