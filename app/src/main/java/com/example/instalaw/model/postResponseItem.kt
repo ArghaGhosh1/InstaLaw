@@ -4,7 +4,7 @@ import android.provider.ContactsContract
 
 data class postResponseItem (
 
-    val fullName : String,
+    val username : String,
     val email: String,
     val password: String
 

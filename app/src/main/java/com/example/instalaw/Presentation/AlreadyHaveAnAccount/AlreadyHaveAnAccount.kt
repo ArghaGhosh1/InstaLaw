@@ -1,5 +1,6 @@
 package com.example.instalaw.Presentation.AlreadyHaveAnAccount
 
+import LoginRequest
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -35,21 +36,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.instalaw.Navigation.Screen
 import com.example.instalaw.R
+import com.example.instalaw.RetrofitInstance
 
 @Composable
 
-fun AlreadyHaveAnAccount(navController : NavHostController) {
+fun AlreadyHaveAnAccount(navController : NavHostController, viewModel: LoginViewModel = viewModel()) {
 
-    var email by remember() {
+    val context = LocalContext.current
+    var username by remember() {
 
         mutableStateOf("")
     }
@@ -216,8 +221,8 @@ fun AlreadyHaveAnAccount(navController : NavHostController) {
 
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = email,
-                        onValueChange = { email = it },
+                        value = username,
+                        onValueChange = { username = it },
                         placeholder = { Text("xyz@gmail.com", color = Color.Gray) }
                     )
 
@@ -252,7 +257,23 @@ fun AlreadyHaveAnAccount(navController : NavHostController) {
                 Spacer(modifier = Modifier.height(15.dp))
 
                 Button(
-                    onClick = {},
+                    onClick = {
+
+                        viewModel.login(
+                            context = context,
+                            username = username,
+                            password = password
+                        ) {
+
+                            // Only executed when login is successful
+                            navController.navigate(Screen.HomeScreen.route) {
+                                popUpTo(Screen.AlreadyHaveAnAccount.route) {
+                                    inclusive = true
+                                }
+                            }
+                        }
+                    },
+                    enabled = !viewModel.isLoading,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
@@ -260,14 +281,27 @@ fun AlreadyHaveAnAccount(navController : NavHostController) {
                     colors = ButtonDefaults.buttonColors(
                         containerColor = colorResource(R.color.Button_Blue)
                     )
-
                 ) {
 
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Sign In", fontSize = 23.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        text = if (viewModel.isLoading)
+                            "Signing In..."
+                        else
+                            "Sign In",
+                        fontSize = 23.sp,
+                        fontWeight = FontWeight.Bold
+                    )
 
-                    }
+                }
+                if (viewModel.errorMessage.isNotEmpty()) {
 
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Text(
+                        text = viewModel.errorMessage,
+                        color = Color.Red,
+                        fontSize = 14.sp
+                    )
                 }
             }
         }

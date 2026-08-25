@@ -44,12 +44,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.instalaw.R
 import com.example.whatsappclone.presentation.homeScreen.bottomNavigation
 
 @Composable
-fun HomeScreen(navController : NavHostController) {
+fun HomeScreen(navController : NavHostController,
+               aiViewModel: AIViewModel = viewModel()) {
     var legalQuestion by remember() {
 
         mutableStateOf("")
@@ -61,7 +63,7 @@ fun HomeScreen(navController : NavHostController) {
 
         bottomBar = {
 
-            bottomNavigation()
+            bottomNavigation(navController = navController)
         }
 
 
@@ -158,15 +160,83 @@ fun HomeScreen(navController : NavHostController) {
                     Spacer(modifier = Modifier.width(8.dp))
 
                     Button(
-                        onClick = {},
-                        modifier = Modifier.height(56.dp)
+                        onClick = {
+                            aiViewModel.askQuestion(legalQuestion)
+                        },
+                        enabled = legalQuestion.isNotBlank() && !aiViewModel.isLoading,
+                        modifier = Modifier
+                            .height(56.dp)
                             .weight(0.28f),
                         shape = RoundedCornerShape(15.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = colorResource(R.color.Button_Blue)
                         )
                     ) {
-                        Text("Ask Now")
+                        Text(
+                            if (aiViewModel.isLoading)
+                                "Thinking..."
+                            else
+                                "Ask Now"
+                        )
+                    }
+                }
+
+                if (aiViewModel.isLoading) {
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Text(
+                        text = "InstaLaw AI is thinking...",
+                        fontSize = 16.sp,
+                        color = Color.DarkGray
+                    )
+                }
+
+                if (aiViewModel.errorMessage.isNotEmpty()) {
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Text(
+                        text = aiViewModel.errorMessage,
+                        color = Color.Red,
+                        fontSize = 14.sp
+                    )
+                }
+
+                if (aiViewModel.answer.isNotEmpty()) {
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(18.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        ),
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 3.dp
+                        )
+                    ) {
+
+                        Column(
+                            modifier = Modifier.padding(20.dp)
+                        ) {
+
+                            Text(
+                                text = "InstaLaw AI",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            Text(
+                                text = aiViewModel.answer,
+                                fontSize = 16.sp,
+                                lineHeight = 25.sp,
+                                color = Color.DarkGray
+                            )
+                        }
                     }
                 }
 

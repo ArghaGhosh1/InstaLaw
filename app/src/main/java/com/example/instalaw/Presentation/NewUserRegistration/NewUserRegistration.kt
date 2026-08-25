@@ -313,13 +313,15 @@ fun NewUserRegistration(navController : NavHostController) {
                         scope.launch {
 
                             val user = postResponseItem(
-                                fullName = full_name,
+                                username = full_name,
                                 email = email,
                                 password = password
                             )
 
                             RetrofitInstance.api.post(user)
                         }
+                        navController.navigate(Screen.AlreadyHaveAnAccount.route)
+
                     },
                     modifier = Modifier
                         .fillMaxWidth()

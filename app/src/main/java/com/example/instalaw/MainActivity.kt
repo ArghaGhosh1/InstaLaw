@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.instalaw.Navigation.setUpNavHost
+import com.example.instalaw.Presentation.Cases.CasesScreen
 import com.example.instalaw.Presentation.NewUserRegistration.NewUserRegistration
 import com.example.instalaw.ui.theme.InstaLawTheme
 
@@ -22,7 +23,6 @@ class MainActivity : ComponentActivity() {
 
                 navController = rememberNavController()
                 setUpNavHost(navController as NavHostController)
-
             }
         }
     }

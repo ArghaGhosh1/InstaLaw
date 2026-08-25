@@ -85,7 +85,7 @@ fun LawyersScreen(navController : NavHostController) {
     Scaffold(
 
         bottomBar = {
-            bottomNavigation()
+            bottomNavigation(navController = navController)
         }
 
 
