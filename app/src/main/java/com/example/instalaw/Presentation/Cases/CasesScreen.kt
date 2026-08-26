@@ -40,37 +40,63 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview as ComposePreview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.instalaw.Presentation.HomeScreen.AIViewModel
 
 import com.example.instalaw.R
+import com.example.whatsappclone.presentation.homeScreen.bottomNavigation
 
 
 @Composable
-@ComposePreview(
-    name = "Pixel 9 Pro",
-    device = "spec:width=448dp,height=998dp,dpi=495",
-    showSystemUi = true,
-    showBackground = true
-)
-fun CasesScreen() {
+fun CasesScreen(navController: NavHostController) {
+
+    val aiViewModel: AIViewModel = viewModel()
+
 
     var selectedImageUri by remember {
         mutableStateOf<Uri?>(null)
     }
 
+    val context = LocalContext.current
+
+    var extractedText by remember {
+        mutableStateOf("")
+    }
+
     val filePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
-        selectedImageUri = uri
+        if (uri != null) {
+
+            selectedImageUri = uri
+
+            performOCR(
+                context = context,
+                uri = uri,
+
+                onSuccess = { text ->
+                    extractedText = text
+                },
+
+                onError = { error ->
+                    error.printStackTrace()
+                }
+            )
+        }
     }
 
     Scaffold(
+
+        bottomBar = { bottomNavigation(navController = navController) }
 
 
     ) {
@@ -117,7 +143,7 @@ fun CasesScreen() {
 
                 Text(
                     "Scan any legal notice for an instant",
-                    fontSize = 25.sp,
+                    fontSize = 22.sp,
                     fontWeight = FontWeight.Bold
                 )
 
@@ -125,7 +151,7 @@ fun CasesScreen() {
 
                 Text(
                     "summary.",
-                    fontSize = 25.sp,
+                    fontSize = 22.sp,
                     fontWeight = FontWeight.Bold
                 )
 
@@ -134,7 +160,7 @@ fun CasesScreen() {
 
                 Text(
                     "Point your camera at a physical document to begin",
-                    fontSize = 18.sp,
+                    fontSize = 15.sp,
                     color = Color.Gray
                 )
 
@@ -142,7 +168,7 @@ fun CasesScreen() {
 
                 Text(
                     " analysis.",
-                    fontSize = 18.sp,
+                    fontSize = 15.sp,
                     color = Color.Gray
                 )
 
@@ -208,6 +234,85 @@ fun CasesScreen() {
                     )
 
 
+                }
+
+                if (extractedText.isNotEmpty()) {
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Button(
+                        onClick = {
+
+                            val prompt = """
+                Analyze the following legal notice.
+
+                Explain it in simple language.
+
+                Provide:
+                1. A simple summary
+                2. Parties involved
+                3. Important dates
+                4. What action is required
+                5. Possible consequences
+
+                Legal notice:
+
+                $extractedText
+            """.trimIndent()
+
+                            aiViewModel.askQuestion(prompt)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(55.dp)
+                    ) {
+
+                        Text(
+                            text = "Analyze Legal Notice",
+                            fontSize = 16.sp
+                        )
+                    }
+                }
+
+                if (aiViewModel.isLoading) {
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Text(
+                        text = "Analyzing legal notice...",
+                        fontSize = 16.sp,
+                        color = Color.Gray
+                    )
+                }
+
+                if (aiViewModel.answer.isNotEmpty()) {
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Text(
+                        text = "Legal Analysis",
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Text(
+                        text = aiViewModel.answer,
+                        fontSize = 16.sp,
+                        color = Color.DarkGray,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                if (aiViewModel.errorMessage.isNotEmpty()) {
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Text(
+                        text = aiViewModel.errorMessage,
+                        color = Color.Red
+                    )
                 }
 
             }

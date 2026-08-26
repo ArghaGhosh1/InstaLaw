@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.instalaw.Presentation.AlreadyHaveAnAccount.AlreadyHaveAnAccount
+import com.example.instalaw.Presentation.Cases.CasesScreen
 import com.example.instalaw.Presentation.EntryScreen.EntryScreen
 import com.example.instalaw.Presentation.HomeScreen.HomeScreen
 import com.example.instalaw.Presentation.LawyersScreen.LawyersScreen
@@ -39,6 +40,11 @@ fun setUpNavHost(navController : NavHostController){
         composable(Screen.NewUserRegistration.route) {
 
             NewUserRegistration(navController)
+        }
+
+        composable ( Screen.CasesScreen.route ){
+
+            CasesScreen(navController)
         }
 
     }

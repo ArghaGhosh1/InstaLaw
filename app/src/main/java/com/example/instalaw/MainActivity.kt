@@ -21,10 +21,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             InstaLawTheme {
 
-//                navController = rememberNavController()
-//                setUpNavHost(navController as NavHostController)
+                navController = rememberNavController()
+                setUpNavHost(navController as NavHostController)
 
-                CasesScreen()
             }
         }
     }

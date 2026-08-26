@@ -7,4 +7,5 @@ sealed class Screen(var route: String) {
     object HomeScreen : Screen("HomeScreen")
     object LawyersScreen : Screen("LawyersScreen")
     object AlreadyHaveAnAccount : Screen("AlreadyHaveAnAccount")
+    object CasesScreen : Screen("CasesScreen")
 }
