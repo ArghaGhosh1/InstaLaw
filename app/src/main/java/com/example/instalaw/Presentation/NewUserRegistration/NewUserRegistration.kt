@@ -216,7 +216,7 @@ fun NewUserRegistration(navController : NavHostController) {
 
                 Spacer(modifier = Modifier.height(15.dp))
 
-                Text("Full Name", color = Color.Gray, fontWeight = FontWeight.Bold)
+                Text("Username", color = Color.Gray, fontWeight = FontWeight.Bold)
 
                 Spacer(modifier = Modifier.height(5.dp))
 
@@ -227,7 +227,7 @@ fun NewUserRegistration(navController : NavHostController) {
                     onValueChange = { full_name = it },
                     placeholder = {
 
-                        Text("Argha Ghosh", color = Color.Gray)
+                        Text("Argha123", color = Color.Gray)
                     }
                 )
 
