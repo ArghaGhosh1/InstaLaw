@@ -78,6 +78,9 @@ fun EntryScreen(navController : NavHostController) {
 
         }
 
+
+
+
         Spacer(modifier = Modifier.height(20.dp))
 
         Column(
