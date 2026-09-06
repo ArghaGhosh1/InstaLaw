@@ -125,8 +125,8 @@ fun HomeScreen(navController : NavHostController,
                     fontSize = 16.sp, color = Color.DarkGray
                 )
 
-                Spacer(modifier = Modifier.height(2.5.dp))
 
+                Spacer(modifier = Modifier.height(2.5.dp))
 
                 Text(
                     "powered guidance within seconds.",
