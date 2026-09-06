@@ -12,17 +12,11 @@ import retrofit2.http.POST
 interface ApiService {
 
     @POST("public/signUp")
-    suspend fun post(
-        @Body post: postResponseItem
-    ): Response<postResponseItem>
+    suspend fun post(@Body post: postResponseItem): Response<postResponseItem>
 
     @POST("ai/ask")
-    suspend fun askAI(
-        @Body request: AIRequest
-    ): AIResponse
+    suspend fun askAI(@Body request: AIRequest): AIResponse
 
     @POST("public/logIn")
-    suspend fun login(
-        @Body request: LoginRequest
-    ): Response<LoginResponse>
+    suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 }
